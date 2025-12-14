@@ -1,6 +1,31 @@
-@TaskManagerAPI_HostAddress = http://localhost:5191
+@rootURL = http://localhost:5191
 
-GET {{TaskManagerAPI_HostAddress}}/weatherforecast/
+GET {{rootURL}}/api/tasks
 Accept: application/json
 
 ###
+GET {{rootURL}}/api/tasks/2
+Accept: application/json
+
+###
+POST {{rootURL}}/api/tasks
+Content-Type: application/json
+{
+  "id": 4,
+  "title": "Task 4",
+  "description": "Description for Task 4",
+  "isCompleted": false
+}
+
+###
+PUT {{rootURL}}/api/tasks/4
+Content-Type: application/json
+{
+  "id": 4,
+  "title": "Updated Task 4",
+  "description": "Updated Description for Task 4",
+  "isCompleted": false
+}
+
+###
+DELETE {{rootURL}}/api/tasks/3
