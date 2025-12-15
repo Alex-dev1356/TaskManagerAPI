@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using TaskManagerAPI.Data;
 using TaskManagerAPI.Model;
 
 namespace TaskManagerAPI.Controllers
@@ -7,6 +9,13 @@ namespace TaskManagerAPI.Controllers
     [ApiController]
     public class TasksController : Controller
     {
+        //Implementing Dependency Injection
+        private readonly TaskManagerAPIContext _context;
+        public TasksController(TaskManagerAPIContext context)
+        {
+            _context = context;
+        }
+
         public static readonly List<Tasks> tasks = new List<Tasks> {
             new Tasks { ID = 1, Title = "Task 1", Description = "Description for Task 1", IsCompleted = false },
             new Tasks { ID = 2, Title = "Task 2", Description = "Description for Task 2", IsCompleted = false },
