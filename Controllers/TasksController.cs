@@ -16,23 +16,25 @@ namespace TaskManagerAPI.Controllers
             _context = context;
         }
 
-        public static readonly List<Tasks> tasks = new List<Tasks> {
-            new Tasks { ID = 1, Title = "Task 1", Description = "Description for Task 1", IsCompleted = false },
-            new Tasks { ID = 2, Title = "Task 2", Description = "Description for Task 2", IsCompleted = false },
-            new Tasks { ID = 3, Title = "Task 3", Description = "Description for Task 3", IsCompleted = false }
-        };
+        //public static readonly List<Tasks> tasks = new List<Tasks> {
+        //    new Tasks { ID = 1, Title = "Task 1", Description = "Description for Task 1", IsCompleted = false },
+        //    new Tasks { ID = 2, Title = "Task 2", Description = "Description for Task 2", IsCompleted = false },
+        //    new Tasks { ID = 3, Title = "Task 3", Description = "Description for Task 3", IsCompleted = false }
+        //};
 
         [HttpGet]
-        public ActionResult<Tasks> GetAllTasks()
+        public async Task<ActionResult<Tasks>> GetAllTasks()
         {
-            return Ok(tasks);
+            //return Ok(tasks);
+
+            //Using the DbContext to fetch data from the database also known as the Asynchronous programming
+            return Ok(await _context.Tasks.ToListAsync());
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Tasks> GetTaskById(int id)
+        public async Task<ActionResult<Tasks>> GetTaskById(int id)
         {
-            var getTaskById = tasks.FirstOrDefault(t => t.ID == id);
-
+            var getTaskById = await _context.Tasks.FindAsync(id);
             if (getTaskById == null)
                 return NotFound();
 
@@ -40,41 +42,49 @@ namespace TaskManagerAPI.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Tasks> AddTask(Tasks newTask)
+        public async Task<ActionResult<Tasks>> AddNewTask(Tasks newTask)
         {
             if (newTask == null)
                 return BadRequest();
 
-            tasks.Add(newTask);
+            //newTask.CreatedAt = new DateTime(2025, 05, 14);
 
-            return CreatedAtAction(nameof(GetTaskById), new { id = newTask.ID}, newTask);
+            await _context.Tasks.AddAsync(newTask);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetTaskById), new { id = newTask.ID }, newTask);
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateTask(int id, Tasks updateTask)
+        public async Task<IActionResult> UpdateTask(int id, Tasks updatedTask)
         {
-            var getTaskById = tasks.Find(t => t.ID == id);
+            var getTaskById = await _context.Tasks.FindAsync(id);
 
-            if (getTaskById == null)
+            if(getTaskById == null)
                 return NotFound();
 
-            getTaskById.ID = updateTask.ID;
-            getTaskById.Title = updateTask.Title;
-            getTaskById.Description = updateTask.Description;
-            getTaskById.IsCompleted = updateTask.IsCompleted;
+            getTaskById.Title = updatedTask.Title;
+            getTaskById.Description = updatedTask.Description;
+            getTaskById.IsCompleted = updatedTask.IsCompleted;
+            getTaskById.CreatedAt = new DateTime(2025, 12, 15);
+
+            await _context.SaveChangesAsync();
 
             return NoContent();
+
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteTask(int id)
+        public async Task<IActionResult> DeleteTask(int id)
         {
-            var getTaskById = tasks.Find(t => t.ID == id);
+            var getTaskById = await _context.Tasks.FindAsync(id);
 
             if (getTaskById == null)
                 return NotFound();
 
-            tasks.Remove(getTaskById);
+            _context.Tasks.Remove(getTaskById);
+
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
