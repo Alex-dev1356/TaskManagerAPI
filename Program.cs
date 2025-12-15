@@ -1,4 +1,7 @@
 
+using Microsoft.EntityFrameworkCore;
+using TaskManagerAPI.Data;
+
 namespace TaskManagerAPI
 {
     public class Program
@@ -12,6 +15,11 @@ namespace TaskManagerAPI
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
+
+            //Declaring the Database Context for Dependency Injection container
+            builder.Services.AddDbContext<TaskManagerAPIContext>(options =>
+                    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
             var app = builder.Build();
 
