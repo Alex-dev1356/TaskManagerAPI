@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using TaskManagerAPI.Data;
 using TaskManagerAPI.Model;
+using System.Linq;
 
 namespace TaskManagerAPI.Controllers
 {
@@ -60,7 +61,7 @@ namespace TaskManagerAPI.Controllers
         {
             var getTaskById = await _context.Tasks.FindAsync(id);
 
-            if(getTaskById == null)
+            if (getTaskById == null)
                 return NotFound();
 
             getTaskById.Title = updatedTask.Title;
@@ -88,5 +89,16 @@ namespace TaskManagerAPI.Controllers
 
             return NoContent();
         }
+
+        //USING LINQ Queries
+        [HttpGet("december")]
+        public async Task<ActionResult<Tasks>> GetOnlyDecemberDates()
+        {
+            var getOnlyDecemberDates = await _context.Tasks.
+                Where(t => t.CreatedAt.Month == 12).ToListAsync();
+
+            return Ok(getOnlyDecemberDates);
+        }
+
     }
 }
