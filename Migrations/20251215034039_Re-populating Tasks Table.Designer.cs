@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskManagerAPI.Data;
 
@@ -11,9 +12,11 @@ using TaskManagerAPI.Data;
 namespace TaskManagerAPI.Migrations
 {
     [DbContext(typeof(TaskManagerAPIContext))]
-    partial class TaskManagerAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20251215034039_Re-populating Tasks Table")]
+    partial class RepopulatingTasksTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,7 +55,7 @@ namespace TaskManagerAPI.Migrations
                         new
                         {
                             ID = 1,
-                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2025, 12, 15, 3, 40, 38, 644, DateTimeKind.Utc).AddTicks(9002),
                             Description = "Description for Task 1",
                             IsCompleted = false,
                             Title = "Task 1"
@@ -60,7 +63,7 @@ namespace TaskManagerAPI.Migrations
                         new
                         {
                             ID = 2,
-                            CreatedAt = new DateTime(2024, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2025, 12, 15, 3, 40, 38, 645, DateTimeKind.Utc).AddTicks(654),
                             Description = "Description for Task 2",
                             IsCompleted = false,
                             Title = "Task 2"
@@ -68,7 +71,7 @@ namespace TaskManagerAPI.Migrations
                         new
                         {
                             ID = 3,
-                            CreatedAt = new DateTime(2024, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2025, 12, 15, 3, 40, 38, 645, DateTimeKind.Utc).AddTicks(657),
                             Description = "Description for Task 3",
                             IsCompleted = false,
                             Title = "Task 3"

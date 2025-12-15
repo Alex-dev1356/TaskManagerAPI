@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskManagerAPI.Data;
 
@@ -11,9 +12,11 @@ using TaskManagerAPI.Data;
 namespace TaskManagerAPI.Migrations
 {
     [DbContext(typeof(TaskManagerAPIContext))]
-    partial class TaskManagerAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20251215014017_Task Model Re-added")]
+    partial class TaskModelReadded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,32 +50,6 @@ namespace TaskManagerAPI.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Tasks");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = 1,
-                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Description for Task 1",
-                            IsCompleted = false,
-                            Title = "Task 1"
-                        },
-                        new
-                        {
-                            ID = 2,
-                            CreatedAt = new DateTime(2024, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Description for Task 2",
-                            IsCompleted = false,
-                            Title = "Task 2"
-                        },
-                        new
-                        {
-                            ID = 3,
-                            CreatedAt = new DateTime(2024, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Description for Task 3",
-                            IsCompleted = false,
-                            Title = "Task 3"
-                        });
                 });
 #pragma warning restore 612, 618
         }
