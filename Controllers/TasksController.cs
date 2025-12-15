@@ -100,5 +100,16 @@ namespace TaskManagerAPI.Controllers
             return Ok(getOnlyDecemberDates);
         }
 
+        [HttpGet("december-projection")]
+        public async Task<ActionResult<Tasks>> GetOnlyDecemberDatesWithProjection()
+        {
+            var getOnlyDecemberDatesWithProjection = await _context.Tasks.
+                Where(t => t.CreatedAt.Month == 12).
+                Select(t => new { t.ID, t.Title }). //Selecting ONLY the SPECIFIC COLUMNS
+                ToListAsync();
+
+            return Ok(getOnlyDecemberDatesWithProjection);
+        }
+
     }
 }

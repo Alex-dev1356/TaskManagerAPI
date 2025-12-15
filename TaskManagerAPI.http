@@ -33,3 +33,7 @@ DELETE {{rootURL}}/api/tasks/3
 ###
 GET {{rootURL}}/api/tasks/december
 Accept: application/json
+
+###
+GET {{rootURL}}/api/tasks/december-projection
+Accept: application/json
