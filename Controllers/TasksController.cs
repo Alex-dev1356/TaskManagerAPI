@@ -111,5 +111,15 @@ namespace TaskManagerAPI.Controllers
             return Ok(getOnlyDecemberDatesWithProjection);
         }
 
+        [HttpGet("orderby")]
+        public async Task<ActionResult<Tasks>> GetAllTaskByOrder()
+        {
+            var getAllTaskByOrder = await _context.Tasks.
+                OrderBy(t => t.CreatedAt).
+                ToListAsync();
+
+            return Ok(getAllTaskByOrder);
+        }
+
     }
 }
